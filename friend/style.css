@@ -1,0 +1,15 @@
+body {
+  background-color: #004b84;
+  color: #79c9fa;
+  font-weight: 400;
+}
+
+
+a {
+    color:#ff0000;
+    outline: none!important;
+    text-decoration: none!important;
+  }
+  a:hover, a:focus {
+    color: #ff0000;
+  }
