@@ -1,2 +1,0 @@
-"use strict"; $(function () { $(window).bind("orientationchange", function (i) { switch (console.log("orientation"), window.orientation) { case 0: $(".turnDeviceNotification").css("display", "none"); break; case 180: $(".turnDeviceNotification").css("display", "none"); break; case 90: $(".turnDeviceNotification").css("display", "block"); break; case -90: $(".turnDeviceNotification").css("display", "block") } }) });
-//# sourceMappingURL=http://localhost:3000/_maps/orientation.js.map
