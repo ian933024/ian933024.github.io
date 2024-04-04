@@ -10,9 +10,30 @@
     .question-card {
       margin-bottom: 20px;
     }
+    /* 自定義卡片顏色為淺藍色 */
+    .card-custom {
+      background-color: #e7f0fd;
+    }
+    /* 按鈕頂端間距 */
+    .top-btn {
+      margin-bottom: 20px;
+    }
+
   </style>
 </head>
 <body>
+ <div class="container mt-5">
+    <!-- 標題 -->
+    <h1 class="text-center mb-4">教育社會學歷屆試題：108~112年</h1>
+    <!-- 附標題 -->
+    <h2 class="text-center mb-4">已透過ChatGPT從這五年的考古題中挑出社會學相關題目，僅供參考</h2>
+    <!-- 測驗模式按鈕 -->
+    <div class="text-center top-btn">
+        <a href="quiz.html" class="btn btn-primary">測驗模式</a>
+      </div>
+    
+    <div id="questionContainer" class="row"></div>
+ </div>
 
 <div class="container mt-5">
   <div id="questionContainer" class="row"></div>
