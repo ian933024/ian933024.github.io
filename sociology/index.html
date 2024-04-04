@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-VL0J7Y23DR"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-VL0J7Y23DR');
+</script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>題庫展示</title>
@@ -12,12 +21,16 @@
     }
     /* 自定義卡片顏色為淺藍色 */
     .card-custom {
-      background-color: #85b5f8;
+      background-color: #e7f0fd;
     }
     /* 按鈕頂端間距 */
     .top-btn {
       margin-bottom: 20px;
     }
+    body {
+    line-height: 1.5;
+  }
+
 
   </style>
 </head>
@@ -52,7 +65,7 @@
       data.forEach((item, index) => {
         const card = `
           <div class="col-md-4 question-card">
-            <div class="card">
+            <div class="card card-custom">
               <div class="card-header">
                 題號: ${item.題號} (${item.年份})
               </div>
