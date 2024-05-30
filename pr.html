@@ -3,10 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>內嵌 iframe 網頁範例</title>
+    <title>內嵌 iframe 全螢幕展示範例</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+        }
+        iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+    </style>
 </head>
 <body>
-    <h1>內嵌 iframe 示例</h1>
-    <iframe src="https://gamma.app/embed/5x00ii1bgn62f8r" style="width: 700px; max-width: 100%; height: 450px" allow="fullscreen" title="A Comparative Study of Multicultural Education in Taiwanese and Japanese Elementary Schools"></iframe>
+    <iframe src="https://gamma.app/embed/5x00ii1bgn62f8r" allow="fullscreen" title="A Comparative Study of Multicultural Education in Taiwanese and Japanese Elementary Schools"></iframe>
 </body>
 </html>
