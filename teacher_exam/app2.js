@@ -4,7 +4,7 @@ const state = {
   questions: [],
   frequency: [],
   meta: null,
-  selectedSubject: null,
+  selectedSubjects: new Set(),   // empty = show all
   searchText: '',
   expandedFocus: null,
 };
@@ -17,52 +17,80 @@ function escapeHtml(v) {
     .replaceAll('>', '&gt;').replaceAll('"', '&quot;');
 }
 
+function isFiltered() {
+  return state.selectedSubjects.size > 0 || state.searchText !== '';
+}
+
 function filtered() {
   return state.frequency.filter(item => {
-    const bySubject = !state.selectedSubject ||
-      (item.smallSubjects ?? []).includes(state.selectedSubject);
+    const bySubject = state.selectedSubjects.size === 0 ||
+      (item.smallSubjects ?? []).some(s => state.selectedSubjects.has(s));
     const byText = !state.searchText ||
       item.focus.includes(state.searchText);
     return bySubject && byText;
   });
 }
 
+/* ── Sidebar renders ── */
+
 function renderPills() {
   const wrap = $('subjectPills');
-  const cur = state.selectedSubject;
+  const sel = state.selectedSubjects;
+
   wrap.innerHTML = [
-    `<button class="pill${!cur ? ' active' : ''}" data-val="">全部</button>`,
+    `<button class="pill${sel.size === 0 ? ' active' : ''}" data-val="">全部</button>`,
     ...state.meta.smallSubjects.map(s =>
-      `<button class="pill${cur === s ? ' active' : ''}" data-val="${escapeHtml(s)}">${escapeHtml(s)}</button>`
+      `<button class="pill${sel.has(s) ? ' active' : ''}" data-val="${escapeHtml(s)}">${escapeHtml(s)}</button>`
     )
   ].join('');
 
   wrap.querySelectorAll('.pill').forEach(btn => {
     btn.addEventListener('click', () => {
-      state.selectedSubject = btn.dataset.val || null;
+      const val = btn.dataset.val;
+      if (val === '') {
+        sel.clear();
+      } else if (sel.has(val)) {
+        sel.delete(val);
+      } else {
+        sel.add(val);
+      }
       state.expandedFocus = null;
       renderAll();
     });
   });
+
+  // Badge showing how many subjects are selected
+  const badge = $('subjectBadge');
+  if (sel.size > 0) {
+    badge.textContent = `已選 ${sel.size}`;
+    badge.hidden = false;
+  } else {
+    badge.hidden = true;
+  }
 }
 
-function yearDots(years = []) {
-  return YEARS.map(y => {
-    const on = years.includes(y);
-    return `<span class="yd${on ? ' on' : ''}" title="${y}年">${y.slice(1)}</span>`;
-  }).join('');
+function renderFocusSelect() {
+  const select = $('focusSelect');
+  const items = filtered();
+  select.innerHTML =
+    '<option value="">— 選取跳至 —</option>' +
+    items.map(item =>
+      `<option value="${escapeHtml(item.focus)}">${escapeHtml(item.focus)}（${item.count} 次）</option>`
+    ).join('');
 }
+
+/* ── Main list render ── */
 
 function renderList() {
   const items = filtered();
 
-  // If the expanded item is no longer visible after filtering, collapse it
+  // If expanded item dropped out of filter, collapse it
   if (state.expandedFocus && !items.find(i => i.focus === state.expandedFocus)) {
     state.expandedFocus = null;
   }
 
   $('resultCount').textContent = `顯示 ${items.length} / ${state.frequency.length} 個概念`;
-  $('clearBtn').hidden = !state.selectedSubject && !state.searchText;
+  $('clearBtn').hidden = !isFiltered();
 
   const list = $('focusList');
 
@@ -76,6 +104,7 @@ function renderList() {
     const isOpen = state.expandedFocus === item.focus;
     const el = document.createElement('div');
     el.className = `fi${isOpen ? ' open' : ''}`;
+    el.dataset.focus = item.focus;
     el.setAttribute('role', 'listitem');
 
     const tags = (item.smallSubjects ?? [])
@@ -106,6 +135,13 @@ function renderList() {
   }
 }
 
+function yearDots(years = []) {
+  return YEARS.map(y => {
+    const on = years.includes(y);
+    return `<span class="yd${on ? ' on' : ''}" title="${y}年">${y.slice(1)}</span>`;
+  }).join('');
+}
+
 function toggleItem(targetEl, focus, open) {
   // Collapse any other open item
   document.querySelectorAll('.fi.open').forEach(el => {
@@ -122,11 +158,6 @@ function toggleItem(targetEl, focus, open) {
   const body = targetEl.querySelector('.fi-body');
   if (open) {
     fillBody(body, focus);
-    // Smooth scroll so the header stays visible
-    setTimeout(() => {
-      const rect = targetEl.getBoundingClientRect();
-      if (rect.top < 0) targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }, 50);
   } else {
     body.innerHTML = '';
   }
@@ -161,25 +192,56 @@ function fillBody(bodyEl, focus) {
   }).join('');
 }
 
+/* ── renderAll ── */
+
 function renderAll() {
   renderPills();
+  renderFocusSelect();
   renderList();
 }
 
+/* ── Events ── */
+
 function bindEvents() {
-  $('focusSearch').addEventListener('input', e => {
-    state.searchText = e.target.value;
-    renderList();
+  // Concept dropdown → navigate to item
+  $('focusSelect').addEventListener('change', e => {
+    const focus = e.target.value;
+    if (!focus) return;
+
+    const targetEl = Array.from(document.querySelectorAll('.fi'))
+      .find(el => el.dataset.focus === focus);
+
+    if (targetEl) {
+      if (state.expandedFocus !== focus) {
+        state.expandedFocus = focus;
+        toggleItem(targetEl, focus, true);
+      }
+      requestAnimationFrame(() => {
+        targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    }
+
+    // Reset dropdown to placeholder
+    e.target.value = '';
   });
 
+  // Text search
+  $('focusSearch').addEventListener('input', e => {
+    state.searchText = e.target.value;
+    renderAll();
+  });
+
+  // Clear all filters
   $('clearBtn').addEventListener('click', () => {
-    state.selectedSubject = null;
+    state.selectedSubjects.clear();
     state.searchText = '';
     $('focusSearch').value = '';
     state.expandedFocus = null;
     renderAll();
   });
 }
+
+/* ── Init ── */
 
 async function init() {
   const [questions, freq, meta] = await Promise.all([

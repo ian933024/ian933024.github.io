@@ -12,29 +12,44 @@
       <p id="headerSub">110–114 年 國民小學教師資格考試</p>
     </header>
 
-    <div class="filter-bar">
-      <div class="filter-group">
-        <span class="filter-label">小科目</span>
-        <div class="pill-wrap" id="subjectPills"></div>
-      </div>
-      <div class="filter-group">
-        <span class="filter-label">本題重點</span>
-        <input
-          class="search-input"
-          type="search"
-          id="focusSearch"
-          placeholder="輸入關鍵字篩選…"
-          autocomplete="off"
-        />
-      </div>
-    </div>
+    <div class="app-body">
+      <aside class="sidebar">
 
-    <div class="results-meta">
-      <span id="resultCount"></span>
-      <button class="btn-clear" id="clearBtn" type="button" hidden>✕ 清除篩選</button>
-    </div>
+        <div class="sb-section">
+          <div class="sb-label">
+            小科目
+            <span class="sb-badge" id="subjectBadge" hidden></span>
+          </div>
+          <div class="pill-wrap" id="subjectPills"></div>
+        </div>
 
-    <main id="focusList" role="list"></main>
+        <div class="sb-section">
+          <div class="sb-label">直接跳至本題重點</div>
+          <select id="focusSelect" class="focus-select">
+            <option value="">— 選取跳至 —</option>
+          </select>
+        </div>
+
+        <div class="sb-section">
+          <div class="sb-label">搜尋本題重點</div>
+          <input
+            class="search-input"
+            type="search"
+            id="focusSearch"
+            placeholder="輸入關鍵字篩選…"
+            autocomplete="off"
+          />
+        </div>
+
+        <div class="results-meta">
+          <span id="resultCount"></span>
+          <button class="btn-clear" id="clearBtn" type="button" hidden>✕ 清除篩選</button>
+        </div>
+
+      </aside>
+
+      <main id="focusList" role="list"></main>
+    </div>
 
     <footer class="app-footer" id="appFooter"></footer>
 
