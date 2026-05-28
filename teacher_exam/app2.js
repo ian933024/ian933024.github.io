@@ -198,6 +198,55 @@ function renderAll() {
   renderPills();
   renderFocusSelect();
   renderList();
+  updateDownloadBtn();
+}
+
+/* ── CSV Download ── */
+
+function csvEscape(value) {
+  const s = String(value ?? '');
+  if (s.includes(',') || s.includes('"') || s.includes('\n') || s.includes('\r')) {
+    return '"' + s.replaceAll('"', '""') + '"';
+  }
+  return s;
+}
+
+function generateCSV() {
+  const focusSet = new Set(filtered().map(i => i.focus));
+  const questions = state.questions
+    .filter(q => focusSet.has(q.focus))
+    .sort((a, b) =>
+      Number(a.year) - Number(b.year) ||
+      a.subject.localeCompare(b.subject) ||
+      Number(a.number) - Number(b.number)
+    );
+
+  const headers = ['年份', '科目', '小科目', '題型', '題號', '本題重點', '共同情境', '題目內容'];
+  const rows = questions.map(q => [
+    q.year, q.subject, q.smallSubject, q.type, q.number,
+    q.focus, q.context ?? '', q.question,
+  ].map(csvEscape));
+
+  return [headers, ...rows].map(r => r.join(',')).join('\n');
+}
+
+function downloadCSV() {
+  const csv = '﻿' + generateCSV();  // BOM for Excel UTF-8
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = '教檢考古題_篩選結果.csv';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+function updateDownloadBtn() {
+  const focusSet = new Set(filtered().map(i => i.focus));
+  const count = state.questions.filter(q => focusSet.has(q.focus)).length;
+  $('downloadBtn').textContent = `↓ 下載 ${count} 題 (CSV)`;
 }
 
 /* ── Events ── */
@@ -230,6 +279,9 @@ function bindEvents() {
     state.searchText = e.target.value;
     renderAll();
   });
+
+  // CSV download
+  $('downloadBtn').addEventListener('click', downloadCSV);
 
   // Clear all filters
   $('clearBtn').addEventListener('click', () => {

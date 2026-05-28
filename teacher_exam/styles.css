@@ -313,13 +313,13 @@ body {
   color: var(--muted);
 }
 .q-ctx {
-  background: #fff7ed;
-  border-left: 3px solid #f59e0b;
+  background: #f1f5f9;
+  border-left: 3px solid #94a3b8;
   padding: 0.5rem 0.75rem;
   border-radius: 0 6px 6px 0;
   font-size: 0.8125rem;
   white-space: pre-wrap;
-  color: #92400e;
+  color: #475569;
   margin-bottom: 0.5rem;
 }
 .q-text {
@@ -327,6 +327,23 @@ body {
   line-height: 1.8;
   white-space: pre-wrap;
 }
+
+/* Download button */
+.btn-download {
+  width: 100%;
+  padding: 0.55rem 0.75rem;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  font-family: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background .12s;
+  text-align: center;
+}
+.btn-download:hover { background: #4338ca; }
 
 /* ── Utility ── */
 .empty-msg {
