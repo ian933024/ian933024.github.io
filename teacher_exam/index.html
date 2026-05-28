@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>教檢考古題頻率分析</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <header class="app-header">
+      <h1>教檢考古題頻率分析</h1>
+      <p id="headerSub">110–114 年 國民小學教師資格考試</p>
+    </header>
+
+    <div class="filter-bar">
+      <div class="filter-group">
+        <span class="filter-label">小科目</span>
+        <div class="pill-wrap" id="subjectPills"></div>
+      </div>
+      <div class="filter-group">
+        <span class="filter-label">本題重點</span>
+        <input
+          class="search-input"
+          type="search"
+          id="focusSearch"
+          placeholder="輸入關鍵字篩選…"
+          autocomplete="off"
+        />
+      </div>
+    </div>
+
+    <div class="results-meta">
+      <span id="resultCount"></span>
+      <button class="btn-clear" id="clearBtn" type="button" hidden>✕ 清除篩選</button>
+    </div>
+
+    <main id="focusList" role="list"></main>
+
+    <footer class="app-footer" id="appFooter"></footer>
+
+    <script src="./app2.js" defer></script>
+  </body>
+</html>
