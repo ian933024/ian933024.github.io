@@ -4,7 +4,7 @@ const state = {
   questions: [],
   frequency: [],
   meta: null,
-  selectedSubjects: new Set(),   // empty = show all
+  selectedSubjects: new Set(),
   searchText: '',
   expandedFocus: null,
 };
@@ -25,10 +25,93 @@ function filtered() {
   return state.frequency.filter(item => {
     const bySubject = state.selectedSubjects.size === 0 ||
       (item.smallSubjects ?? []).some(s => state.selectedSubjects.has(s));
-    const byText = !state.searchText ||
-      item.focus.includes(state.searchText);
+    const byText = !state.searchText || item.focus.includes(state.searchText);
     return bySubject && byText;
   });
+}
+
+/* ── CSV helpers ── */
+
+function csvEscape(value) {
+  const s = String(value ?? '');
+  if (s.includes(',') || s.includes('"') || s.includes('\n') || s.includes('\r')) {
+    return '"' + s.replaceAll('"', '""') + '"';
+  }
+  return s;
+}
+
+function makeCSV(questions) {
+  const headers = ['年份', '科目', '小科目', '題型', '題號', '本題重點', '共同情境', '題目內容'];
+  const rows = questions.map(q => [
+    q.year, q.subject, q.smallSubject, q.type, q.number,
+    q.focus, q.context ?? '', q.question,
+  ].map(csvEscape));
+  return '﻿' + [headers, ...rows].map(r => r.join(',')).join('\n');
+}
+
+function triggerDownload(csv, filename) {
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+// Sidebar: download all filtered questions
+function downloadCSV() {
+  const focusSet = new Set(filtered().map(i => i.focus));
+  const questions = state.questions
+    .filter(q => focusSet.has(q.focus))
+    .sort((a, b) =>
+      Number(a.year) - Number(b.year) ||
+      a.subject.localeCompare(b.subject) ||
+      Number(a.number) - Number(b.number)
+    );
+  triggerDownload(makeCSV(questions), '教檢考古題_篩選結果.csv');
+}
+
+// Per-item: download questions for one focus
+function downloadItemCSV(focus) {
+  const questions = state.questions
+    .filter(q => q.focus === focus)
+    .sort((a, b) => Number(a.year) - Number(b.year) || Number(a.number) - Number(b.number));
+  triggerDownload(makeCSV(questions), `教檢_${focus}.csv`);
+}
+
+function copyFocusTitle(text, btn) {
+  const doFeedback = () => {
+    const orig = btn.textContent;
+    btn.textContent = '✓ 已複製';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = orig; btn.classList.remove('copied'); }, 1500);
+  };
+
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(text).then(doFeedback).catch(() => fallbackCopy(text, doFeedback));
+  } else {
+    fallbackCopy(text, doFeedback);
+  }
+}
+
+function fallbackCopy(text, cb) {
+  const ta = document.createElement('textarea');
+  ta.value = text;
+  ta.style.cssText = 'position:fixed;opacity:0';
+  document.body.appendChild(ta);
+  ta.select();
+  try { document.execCommand('copy'); } catch (_) {}
+  document.body.removeChild(ta);
+  cb();
+}
+
+function updateDownloadBtn() {
+  const focusSet = new Set(filtered().map(i => i.focus));
+  const count = state.questions.filter(q => focusSet.has(q.focus)).length;
+  $('downloadBtn').textContent = `↓ 下載 ${count} 題 (CSV)`;
 }
 
 /* ── Sidebar renders ── */
@@ -47,26 +130,17 @@ function renderPills() {
   wrap.querySelectorAll('.pill').forEach(btn => {
     btn.addEventListener('click', () => {
       const val = btn.dataset.val;
-      if (val === '') {
-        sel.clear();
-      } else if (sel.has(val)) {
-        sel.delete(val);
-      } else {
-        sel.add(val);
-      }
+      if (val === '') { sel.clear(); }
+      else if (sel.has(val)) { sel.delete(val); }
+      else { sel.add(val); }
       state.expandedFocus = null;
       renderAll();
     });
   });
 
-  // Badge showing how many subjects are selected
   const badge = $('subjectBadge');
-  if (sel.size > 0) {
-    badge.textContent = `已選 ${sel.size}`;
-    badge.hidden = false;
-  } else {
-    badge.hidden = true;
-  }
+  if (sel.size > 0) { badge.textContent = `已選 ${sel.size}`; badge.hidden = false; }
+  else { badge.hidden = true; }
 }
 
 function renderFocusSelect() {
@@ -84,7 +158,6 @@ function renderFocusSelect() {
 function renderList() {
   const items = filtered();
 
-  // If expanded item dropped out of filter, collapse it
   if (state.expandedFocus && !items.find(i => i.focus === state.expandedFocus)) {
     state.expandedFocus = null;
   }
@@ -111,26 +184,44 @@ function renderList() {
       .map(s => `<span class="stag">${escapeHtml(s)}</span>`).join('');
 
     el.innerHTML = `
-      <button class="fi-head" type="button" aria-expanded="${isOpen}">
+      <div class="fi-head" role="button" tabindex="0" aria-expanded="${isOpen}">
+        <button class="btn-dl-item" type="button" title="下載此概念題目 CSV">↓ CSV</button>
         <span class="fi-name">${escapeHtml(item.focus)}</span>
+        <button class="btn-copy" type="button" title="複製標題">複製</button>
         <span class="fi-right">
           <span class="fi-count"><b>${item.count}</b>次</span>
           <span class="yd-row">${yearDots(item.years)}</span>
           <span class="stag-row">${tags}</span>
           <span class="fi-arrow">▾</span>
         </span>
-      </button>
+      </div>
       <div class="fi-body"></div>
     `;
 
-    el.querySelector('.fi-head').addEventListener('click', () => {
+    const head = el.querySelector('.fi-head');
+
+    // Click on header (not on inner buttons) → toggle
+    head.addEventListener('click', e => {
+      if (e.target.closest('button')) return;
       const wasOpen = state.expandedFocus === item.focus;
       state.expandedFocus = wasOpen ? null : item.focus;
       toggleItem(el, item.focus, !wasOpen);
     });
 
-    list.appendChild(el);
+    // Keyboard toggle
+    head.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        const wasOpen = state.expandedFocus === item.focus;
+        state.expandedFocus = wasOpen ? null : item.focus;
+        toggleItem(el, item.focus, !wasOpen);
+      }
+    });
 
+    el.querySelector('.btn-dl-item').addEventListener('click', () => downloadItemCSV(item.focus));
+    el.querySelector('.btn-copy').addEventListener('click', e => copyFocusTitle(item.focus, e.currentTarget));
+
+    list.appendChild(el);
     if (isOpen) fillBody(el.querySelector('.fi-body'), item.focus);
   }
 }
@@ -143,7 +234,6 @@ function yearDots(years = []) {
 }
 
 function toggleItem(targetEl, focus, open) {
-  // Collapse any other open item
   document.querySelectorAll('.fi.open').forEach(el => {
     if (el !== targetEl) {
       el.classList.remove('open');
@@ -156,11 +246,8 @@ function toggleItem(targetEl, focus, open) {
   targetEl.querySelector('.fi-head').setAttribute('aria-expanded', String(open));
 
   const body = targetEl.querySelector('.fi-body');
-  if (open) {
-    fillBody(body, focus);
-  } else {
-    body.innerHTML = '';
-  }
+  if (open) { fillBody(body, focus); }
+  else { body.innerHTML = ''; }
 }
 
 function fillBody(bodyEl, focus) {
@@ -174,9 +261,7 @@ function fillBody(bodyEl, focus) {
   }
 
   bodyEl.innerHTML = questions.map(q => {
-    const ctx = q.context
-      ? `<div class="q-ctx">${escapeHtml(q.context)}</div>`
-      : '';
+    const ctx = q.context ? `<div class="q-ctx">${escapeHtml(q.context)}</div>` : '';
     return `
       <div class="q-card">
         <div class="q-meta">
@@ -201,89 +286,29 @@ function renderAll() {
   updateDownloadBtn();
 }
 
-/* ── CSV Download ── */
-
-function csvEscape(value) {
-  const s = String(value ?? '');
-  if (s.includes(',') || s.includes('"') || s.includes('\n') || s.includes('\r')) {
-    return '"' + s.replaceAll('"', '""') + '"';
-  }
-  return s;
-}
-
-function generateCSV() {
-  const focusSet = new Set(filtered().map(i => i.focus));
-  const questions = state.questions
-    .filter(q => focusSet.has(q.focus))
-    .sort((a, b) =>
-      Number(a.year) - Number(b.year) ||
-      a.subject.localeCompare(b.subject) ||
-      Number(a.number) - Number(b.number)
-    );
-
-  const headers = ['年份', '科目', '小科目', '題型', '題號', '本題重點', '共同情境', '題目內容'];
-  const rows = questions.map(q => [
-    q.year, q.subject, q.smallSubject, q.type, q.number,
-    q.focus, q.context ?? '', q.question,
-  ].map(csvEscape));
-
-  return [headers, ...rows].map(r => r.join(',')).join('\n');
-}
-
-function downloadCSV() {
-  const csv = '﻿' + generateCSV();  // BOM for Excel UTF-8
-  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = '教檢考古題_篩選結果.csv';
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
-}
-
-function updateDownloadBtn() {
-  const focusSet = new Set(filtered().map(i => i.focus));
-  const count = state.questions.filter(q => focusSet.has(q.focus)).length;
-  $('downloadBtn').textContent = `↓ 下載 ${count} 題 (CSV)`;
-}
-
 /* ── Events ── */
 
 function bindEvents() {
-  // Concept dropdown → navigate to item
   $('focusSelect').addEventListener('change', e => {
     const focus = e.target.value;
     if (!focus) return;
-
     const targetEl = Array.from(document.querySelectorAll('.fi'))
       .find(el => el.dataset.focus === focus);
-
     if (targetEl) {
       if (state.expandedFocus !== focus) {
         state.expandedFocus = focus;
         toggleItem(targetEl, focus, true);
       }
-      requestAnimationFrame(() => {
-        targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      });
+      requestAnimationFrame(() => targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' }));
     }
-
-    // Reset dropdown to placeholder
     e.target.value = '';
   });
 
-  // Text search
   $('focusSearch').addEventListener('input', e => {
     state.searchText = e.target.value;
     renderAll();
   });
 
-  // CSV download
-  $('downloadBtn').addEventListener('click', downloadCSV);
-
-  // Clear all filters
   $('clearBtn').addEventListener('click', () => {
     state.selectedSubjects.clear();
     state.searchText = '';
@@ -291,6 +316,8 @@ function bindEvents() {
     state.expandedFocus = null;
     renderAll();
   });
+
+  $('downloadBtn').addEventListener('click', downloadCSV);
 }
 
 /* ── Init ── */
