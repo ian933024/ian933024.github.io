@@ -1,9 +1,10 @@
-<div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:1rem;margin-bottom:2rem;padding-bottom:1.5rem;border-bottom:2px solid #e2e8f0;">
-  <div>
-    <h1 style="margin:0 0 0.3rem;font-size:2rem;">🦉 貓頭鷹的教檢筆記</h1>
-    <p style="margin:0;color:#64748b;font-size:1rem;">110–114 年 國民小學教師資格考試重點整理</p>
-  </div>
-  <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:0.25rem;">
+<div style="margin-bottom:2rem;padding-bottom:1.5rem;border-bottom:2px solid #e2e8f0;">
+  <h1 style="margin:0 0 0.3rem;font-size:2rem;">🦉 貓頭鷹的教檢筆記</h1>
+  <p style="margin:0 0 1.25rem;color:#64748b;font-size:1rem;">110–114 年 國民小學教師資格考試重點整理</p>
+  <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+    <a href="https://ian933024.github.io/teacher_exam/" target="_blank" rel="noopener noreferrer" style="display:inline-block;background:#4f46e5;color:#fff;padding:0 20px;border-radius:8px;font-size:0.9rem;font-weight:700;text-decoration:none;height:40px;line-height:40px;white-space:nowrap;">
+      🔍 考古題分析
+    </a>
     <a href="https://podcasts.apple.com/us/podcast/owlpod/id1770660866?itscg=30200&itsct=podcast_box_badge&ls=1&mttnsubad=1770660866" target="_blank" rel="noopener noreferrer">
       <img src="https://toolbox.marketingtools.apple.com/api/v2/badges/listen-on-apple-podcasts/badge-26/en-us" alt="Listen on Apple Podcasts" style="height:40px;display:block;" />
     </a>
@@ -33,9 +34,3 @@
   <li>教育哲學：各種哲學主義比較（含倫理學與道德判斷）</li>
   <li>特殊教育</li>
 </ul>
-
-<div style="text-align:center;margin:2.5rem 0 1rem;">
-  <a href="https://ian933024.github.io/teacher_exam/" target="_blank" rel="noopener noreferrer" style="display:inline-block;background:#4f46e5;color:#fff;padding:14px 36px;border-radius:10px;font-size:1.05rem;font-weight:700;text-decoration:none;">
-    🔍 前往考古題頻率分析 →
-  </a>
-</div>
