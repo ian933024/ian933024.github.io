@@ -45,6 +45,7 @@
         name: '🦉 貓頭鷹的教檢筆記',
         repo: '',
         loadSidebar: true,
+        loadNavbar: true,
         subMaxLevel: 0,
         auto2top: true,
         search: {
@@ -52,6 +53,17 @@
           noData: '找不到相關內容',
           depth: 3,
         },
+        plugins: [
+          function(hook) {
+            hook.doneEach(function() {
+              var nav = document.querySelector('.app-nav');
+              if (!nav) return;
+              var hash = location.hash;
+              var isHome = hash === '' || hash === '#' || hash === '#/';
+              nav.style.display = isHome ? 'none' : '';
+            });
+          }
+        ],
       }
     </script>
     <script src="//cdn.jsdelivr.net/npm/docsify@4/lib/docsify.min.js"></script>
