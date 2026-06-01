@@ -1,0 +1,3 @@
+- [🔍 考古題分析](https://ian933024.github.io/teacher_exam ':target=_blank')
+- [🎙 Apple Podcasts](https://podcasts.apple.com/us/podcast/owlpod/id1770660866?itscg=30200&itsct=podcast_box_badge&ls=1&mttnsubad=1770660866 ':target=_blank')
+- [🎧 Spotify](https://open.spotify.com/show/1LOdnVGFhjlBgCvxwab8oQ ':target=_blank')
