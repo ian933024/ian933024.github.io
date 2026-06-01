@@ -3,6 +3,9 @@
 - **發展心理學**
   - [重點整理統整](developmental-psychology)
 
+- **教育哲學**
+  - [五大流派：永恆、實用、建構、存在、後現代](educational-philosophy)
+
 - **教育社會學**
   - [批判教育學與教育機會均等](education-sociology)
 
