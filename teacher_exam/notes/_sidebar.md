@@ -8,6 +8,13 @@
 
 - **教育社會學**
   - [批判教育學與教育機會均等](education-sociology)
+  - [教育社會學理論統整](education-sociology-theory)
+
+- **課程發展**
+  - [課程理論、課程設計與課程發展](curriculum-development)
+
+- **教學原理**
+  - [教學原理、學習心理學與學習策略](teaching-principles)
 
 - **教育行政**
   - [學校行政：組織領導](school-admin)
