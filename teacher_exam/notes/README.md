@@ -26,10 +26,3 @@
 | 課程發展 | [課程理論、課程設計與課程發展](curriculum-development) |
 | 教學原理 | [教學原理、學習心理學與學習策略](teaching-principles) |
 | 教育行政 | [學校行政：組織領導](school-admin) |
-
-## 🚧 即將推出
-
-<ul style="color:#94a3b8;line-height:2;">
-  <li>教育哲學：各種哲學主義比較（含倫理學與道德判斷）</li>
-  <li>特殊教育</li>
-</ul>
