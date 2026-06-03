@@ -63,7 +63,7 @@
 
 ### 📝 作答區
 
-<div style="width:100%;overflow:auto;">
-  <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfBVOdwgifqFynjMwPHfTSJ8Jl9NjhqsiGkpnURzyP1KlGhdQ/viewform?embedded=true" width="100%" height="900" style="min-width:320px;border:none;display:block;" frameborder="0" marginheight="0" marginwidth="0">載入中…</iframe>
+<div style="overflow-x:auto;">
+  <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfBVOdwgifqFynjMwPHfTSJ8Jl9NjhqsiGkpnURzyP1KlGhdQ/viewform?embedded=true" width="640" height="750" style="border:none;display:block;" frameborder="0" marginheight="0" marginwidth="0">載入中…</iframe>
 </div>
 
