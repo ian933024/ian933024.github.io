@@ -73,3 +73,11 @@
 
 張老師希望系統性地提升班上學生的道德推理能力，並培養學生站在他人立場思考的能力。請分別根據柯柏格（L. Kohlberg）的道德認知發展論與薛爾曼（R. Selman）的觀點取替理論，各提出一項張老師可在班級中落實的**具體**教學或輔導做法，並說明各做法如何促進學生的道德發展。
 
+---
+
+### 📝 作答區
+
+<div style="overflow-x:auto;">
+  <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfBVOdwgifqFynjMwPHfTSJ8Jl9NjhqsiGkpnURzyP1KlGhdQ/viewform?embedded=true" width="640" height="750" style="border:none;display:block;" frameborder="0" marginheight="0" marginwidth="0">載入中…</iframe>
+</div>
+
