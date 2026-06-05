@@ -32,7 +32,7 @@
 - (D) 文化多元論（Cultural Pluralism）
 
 <details>
-<summary>📋 評分規則（點擊展開）</summary>
+<summary style="background:#eef2ff;border:1px solid #c7d2fe;padding:6px 14px;border-radius:6px;cursor:pointer;font-weight:500;">📋 評分規則（點擊展開）</summary>
 
 **正確答案**：**(B) 符應理論（Correspondence Theory）**
 
@@ -96,7 +96,7 @@
 包爾斯（S. Bowles）與金帝斯（H. Gintis）的符應理論指出，學校的社會關係與資本主義職場的階層關係之間存在結構性「符應」。請從情境中，分別找出**兩組**乙校的「課程安排或校園規範」與「職場生產關係」之間的具體對應，並說明這樣的符應如何有助於再製勞工階層的位置。
 
 <details>
-<summary>📋 評分規則（點擊展開）</summary>
+<summary style="background:#eef2ff;border:1px solid #c7d2fe;padding:6px 14px;border-radius:6px;cursor:pointer;font-weight:500;">📋 評分規則（點擊展開）</summary>
 
 **每組 3 分，共 2 組，合計 6 分。**
 
@@ -166,7 +166,7 @@
 針對「家庭社經地位影響子女選擇學校類型，進而導致教育再製社會不平等」此一現象，請分別從**功能論**（Functionalism）與**衝突論**（Conflict Theory）的觀點加以解釋，並說明兩種觀點在「教育與社會關係」上最根本的立場差異為何。
 
 <details>
-<summary>📋 評分規則（點擊展開）</summary>
+<summary style="background:#eef2ff;border:1px solid #c7d2fe;padding:6px 14px;border-radius:6px;cursor:pointer;font-weight:500;">📋 評分規則（點擊展開）</summary>
 
 | 評分項目 | 配分 |
 |---------|------|
@@ -255,7 +255,7 @@
 乙校校長表示：「我們的任務是協助每位學生找到最適合自己的位置，讓孩子依照個人能力和興趣發展，這樣才公平。」請從**符應理論**的觀點，分析此主張可能具有什麼意識形態功能，以及它如何掩蓋了教育系統中的不平等結構。
 
 <details>
-<summary>📋 評分規則（點擊展開）</summary>
+<summary style="background:#eef2ff;border:1px solid #c7d2fe;padding:6px 14px;border-radius:6px;cursor:pointer;font-weight:500;">📋 評分規則（點擊展開）</summary>
 
 | 評分項目 | 配分 |
 |---------|------|
@@ -310,7 +310,7 @@
 布迪厄（P. Bourdieu）提出**文化資本**（cultural capital）的概念，可進一步補充說明社會再製的另一種機制。請先簡述文化資本的意涵（2 分），再依據情境，提出**兩項**柯老師在教學現場中可採取的具體做法，以縮小學生因文化資本差異而造成的學習機會落差（每項做法 3 分，共 6 分）。
 
 <details>
-<summary>📋 評分規則（點擊展開）</summary>
+<summary style="background:#eef2ff;border:1px solid #c7d2fe;padding:6px 14px;border-radius:6px;cursor:pointer;font-weight:500;">📋 評分規則（點擊展開）</summary>
 
 | 評分項目 | 配分 |
 |---------|------|
