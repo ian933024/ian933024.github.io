@@ -70,6 +70,23 @@
               var isHome = hash === '' || hash === '#' || hash === '#/';
               nav.style.display = isHome ? 'none' : '';
             });
+          },
+          function(hook) {
+            var footer = [
+              '<hr style="margin:3rem 0 1.5rem;border:none;border-top:1px solid #e2e8f0;">',
+              '<footer style="text-align:center;color:#94a3b8;font-size:0.85rem;padding-bottom:2.5rem;line-height:2;">',
+              '  <p style="margin:0;">🦉 貓頭鷹的教檢筆記 &nbsp;·&nbsp; 110–114 年國民小學教師資格考試</p>',
+              '  <p style="margin:0;">本站內容由 AI 輔助生成，僅供備考參考，不代表正式考試之批閱標準。</p>',
+              '  <p style="margin:0;">如有發現任何錯誤，歡迎來信告知：',
+              '    <a href="mailto:ian933024@gapp.nthu.edu.tw"',
+              '       style="color:#6366f1;text-decoration:none;">ian933024@gapp.nthu.edu.tw</a>',
+              '  </p>',
+              '  <p style="margin:0.25rem 0 0;font-size:0.78rem;">© 2025 貓頭鷹的教檢筆記</p>',
+              '</footer>',
+            ].join('');
+            hook.afterEach(function(html, next) {
+              next(html + footer);
+            });
           }
         ],
       }
