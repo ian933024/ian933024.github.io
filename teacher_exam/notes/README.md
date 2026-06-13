@@ -24,6 +24,11 @@
 | 社會觀點取替理論 | [薛爾曼的角色取替五階段](supplement-3-selman) |
 | 其他小細節 | [互惠利他主義、French & Raven 五種權力基礎](supplement-4-misc) |
 
+> ⚠️ 這兩部影片包含一些不精確的內容，所以只是快速複習用，可以思考看看那些地方不夠精確，可以更加鞏固記憶喔！（影片由 NotebookLM 製作，本人不負任何責任）
+
+- 🎬 [補充小品複習短影片（一）](https://youtu.be/0m4nNhfItUY)
+- 🎬 [補充小品複習短影片（二）](https://youtu.be/bt8jeoM3IWM)
+
 ---
 
 ## 📢 勘誤公告
