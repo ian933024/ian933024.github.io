@@ -28,3 +28,9 @@
   - [課程發展：課程理論、設計與發展](curriculum-development)
   - [教學原理：教學原理、學習心理學與學習策略](teaching-principles)
   - [學習評量：評量觀、試題分析與多元評量](learning-assessment)
+
+- **補充小品**
+  - [補充小品1：數學教材教法](supplement-1-math)
+  - [補充小品2：道德哲學](supplement-2-moral-philosophy)
+  - [補充小品3：社會觀點取替理論](supplement-3-selman)
+  - [補充小品4：其他小細節](supplement-4-misc)

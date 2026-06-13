@@ -15,6 +15,17 @@
   </div>
 </div>
 
+## 📌 補充小品
+
+| 主題 | 連結 |
+|------|------|
+| 數學教材教法 | [等分除、包含除、van Hiele 幾何思考層次](supplement-1-math) |
+| 道德哲學 | [效益論、義務論、理性論、關懷論](supplement-2-moral-philosophy) |
+| 社會觀點取替理論 | [薛爾曼的角色取替五階段](supplement-3-selman) |
+| 其他小細節 | [互惠利他主義、French & Raven 五種權力基礎](supplement-4-misc) |
+
+---
+
 ## 📢 勘誤公告
 
 > **「學習評量」筆記勘誤（6/12 更新）**
